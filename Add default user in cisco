@@ -1,0 +1,19 @@
+from netmiko import ConnectHandler
+
+RSLAB_TERMINAL1 = {
+	'device_type': 'cisco_ios',
+	'ip': '129.119.59.2',
+	'username': 'xxx',
+	'password': 'xxx',
+	} 
+
+net_connect = ConnectHandler(**RSLAB_TERMINAL1)
+
+port = raw_input('Creating the default user admin and setting the password for the same')
+
+
+net_connect.send_command_expect("username admin password xxxxxx"\n")
+
+net_connect.send_command("\n")
+
+print ("User created. Please try to login as admin user to verify")
