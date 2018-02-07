@@ -1,0 +1,58 @@
+import os.path
+from netmiko import ConnectHandler
+import time
+
+
+RSLAB_TERMINAL1 = {
+	'device_type': 'cisco_ios',
+	'ip': 'x.x.x.x',
+	'username': 'xxx',
+	'password': 'xxx',
+	'secret' : 'xxx',
+	}
+
+RSLAB_TERMINAL2 = {
+	'device_type': 'cisco_ios',
+	'ip': 'x.x.x.x',
+	'username': 'xxx',
+	'password': 'xxx',
+	'secret' : 'xxx',
+	}
+
+
+net_connect = ConnectHandler(**RSLAB_TERMINAL1)
+net_connect.enable()
+print ("\n\n")
+print ("******************** Initializing Backup Process *************************")
+print ("\n\n")
+print ("******************* Creating backup for terminal 1 ***********************")
+print("\n\n")
+
+#T1_running_config_output = net_connect.send_command_expect("show runn \n")
+
+config_file = open('Terminal_1_running_config.txt', 'w')
+
+config_file.write(net_connect.send_command_expect("show runn \n"))
+
+config_file.close()
+
+print ("************* Created backup for terminal 1 succesfully ******************")
+print("\n\n")
+net_connect.disconnect()
+#print (T1_running_config_output)
+
+net_connect = ConnectHandler(**RSLAB_TERMINAL2)
+net_connect.enable()
+print ("******************* Creating backup for terminal 2 ***********************")
+print("\n\n")
+config_file = open('Terminal_2_running_config.txt', 'w')
+
+config_file.write(net_connect.send_command_expect("show runn \n"))
+
+config_file.close()
+print ("************* Created backup for terminal 2 succesfully ******************")
+print("\n\n")
+net_connect.disconnect()
+
+print ("******************** Backup Process completed ****************************")
+print("\n\n")
